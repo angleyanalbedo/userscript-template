@@ -5,15 +5,18 @@ const fs = require("fs");
 
 module.exports = {
     entry: {
-        index: "./src/index.js"
+        // 改成 .jsx 入口（React 支持）
+        index: "./src/index.jsx"
     },
     output: {
-        // filename: "[name]-[hash].js",
         filename: "[name].js",
         path: path.resolve(__dirname, "dist"),
     },
-    optimization: {
+    resolve: {
+        // 让 webpack 自动识别 .jsx 文件
+        extensions: [".js", ".jsx"]
     },
+    optimization: {},
     plugins: [
         // 在打包后的文件头插入一些banner信息，官方插件：
         // https://webpack.js.org/plugins/banner-plugin/
@@ -53,6 +56,20 @@ module.exports = {
     ],
     module: {
         rules: [
+            //  新增 Babel 规则：支持 React JSX
+            {
+                test: /\.(js|jsx)$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: [
+                            "@babel/preset-env",
+                            "@babel/preset-react"
+                        ]
+                    }
+                }
+            },
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']

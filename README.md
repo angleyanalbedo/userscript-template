@@ -2,7 +2,11 @@
 
 简体中文| [English](./README_en.md)
 
+增加`react ui` 借鉴于 [userscript-template](https://github.com/JSREI/userscript-template)
+
 官网链接： https://jsrei.github.io/userscript-template/#usage
+
+
 
 # 一、这是什么
 
