@@ -11,13 +11,23 @@ module.exports = {
     output: {
         filename: "[name].js",
         path: path.resolve(__dirname, "dist"),
+        // 确保浏览器能直接执行
+        library: {
+        type: "window", // or "var"
+        name: "UserscriptApp"
+        }
     },
+    target: "web", // ✅ 明确指定浏览器环境
     resolve: {
         // 让 webpack 自动识别 .jsx 文件
         extensions: [".js", ".jsx"]
     },
     optimization: {},
     plugins: [
+        // ✅ 替换 Node 环境变量，防止浏览器找不到 process
+        new webpack.DefinePlugin({
+            "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV || "development")
+        }),
         // 在打包后的文件头插入一些banner信息，官方插件：
         // https://webpack.js.org/plugins/banner-plugin/
         new webpack.BannerPlugin({
